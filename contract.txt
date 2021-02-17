@@ -1,0 +1,129 @@
+When
+    [Case
+        (Deposit
+            (Role "escrow")
+            (Role "buyer")
+            (Token "" "")
+            (Constant 500)
+        )
+        (When
+            [Case
+                (Choice
+                    (ChoiceId
+                        "jobdone"
+                        (Role "seller")
+                    )
+                    [Bound 0 1]
+                )
+                (If
+                    (ValueEQ
+                        (ChoiceValue
+                            (ChoiceId
+                                "jobdone"
+                                (Role "seller")
+                            ))
+                        (Constant 1)
+                    )
+                    (When
+                        [Case
+                            (Choice
+                                (ChoiceId
+                                    "jobdone"
+                                    (Role "buyer")
+                                )
+                                [Bound 0 1]
+                            )
+                            (If
+                                (ValueEQ
+                                    (ChoiceValue
+                                        (ChoiceId
+                                            "jobdone"
+                                            (Role "buyer")
+                                        ))
+                                    (ChoiceValue
+                                        (ChoiceId
+                                            "jobdone"
+                                            (Role "seller")
+                                        ))
+                                )
+                                (Pay
+                                    (Role "escrow")
+                                    (Account (Role "seller"))
+                                    (Token "" "")
+                                    (Constant 500)
+                                    Close 
+                                )
+                                (When
+                                    [Case
+                                        (Choice
+                                            (ChoiceId
+                                                "jobdone"
+                                                (Role "escrow")
+                                            )
+                                            [Bound 0 1]
+                                        )
+                                        (If
+                                            (ValueEQ
+                                                (ChoiceValue
+                                                    (ChoiceId
+                                                        "jobdone"
+                                                        (Role "escrow")
+                                                    ))
+                                                (ChoiceValue
+                                                    (ChoiceId
+                                                        "jobdone"
+                                                        (Role "seller")
+                                                    ))
+                                            )
+                                            (Pay
+                                                (Role "escrow")
+                                                (Account (Role "seller"))
+                                                (Token "" "")
+                                                (Constant 500)
+                                                Close 
+                                            )
+                                            (Pay
+                                                (Role "escrow")
+                                                (Account (Role "buyer"))
+                                                (Token "" "")
+                                                (Constant 500)
+                                                Close 
+                                            )
+                                        )]
+                                    45
+                                    (Pay
+                                        (Role "escrow")
+                                        (Account (Role "buyer"))
+                                        (Token "" "")
+                                        (Constant 500)
+                                        Close 
+                                    )
+                                )
+                            )]
+                        25
+                        (Pay
+                            (Role "escrow")
+                            (Account (Role "seller"))
+                            (Token "" "")
+                            (Constant 500)
+                            Close 
+                        )
+                    )
+                    (Pay
+                        (Role "escrow")
+                        (Account (Role "buyer"))
+                        (Token "" "")
+                        (Constant 500)
+                        Close 
+                    )
+                )]
+            15
+            (Pay
+                (Role "escrow")
+                (Account (Role "buyer"))
+                (Token "" "")
+                (Constant 500)
+                Close 
+            )
+        )]
+    5 Close 
